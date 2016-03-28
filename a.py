@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import os
 import sys
+import time
 
 args = []
-validargs = ['a','c', 'h' ,'s=l', 's=s', 'f']
+validargs = ['a','c', 'h', 'f' ,'s=l', 's=s', 'd']
 listall = False
 toprint = ""
 dtl = "."
@@ -13,24 +14,27 @@ for arg in sys.argv[1:]:
 			args.extend([arg])
 		else:
 			print("Invalid argument: " + arg)
+			exit()
 	elif os.path.isdir(arg):
 		dtl = arg
 	else:
 		print("Invalid argument: " + arg)
 if not 'c' in args and not 'f' in args:
-	args.extend(['-f'])
+	args.extend(['-d'])
 def help():
 	print("Usage: a [OPTION]")
 	print("		-h: Display this")
 	print("		-c: Compact, no size and keep use very little space.")
-	print("		-f: Full, list file size and use space comfortably.")
+	print("		-d: Default, list file size and use space comfortably.")
 	print("		-s=l: Sort from largest to smallest.")
 	print("		-s=s: Sort from smallest to largest.")
+	print("		-f: List every attribute and use a lot of space.")
 	sys.exit()
 
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
+    CYAN = '\033[96m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
@@ -107,7 +111,7 @@ for arg in args:
 				else:
 					print(bcolors.WARNING + str(FILE) + bcolors.ENDC, end='  ')
 		exit();
-	elif arg == "-f":
+	elif arg == "-d":
 		for FILE in FILES:
 			if os.path.isfile(str(FILE)):
 				if not str(FILE).startswith("."):
@@ -124,4 +128,23 @@ for arg in args:
 						pass
 				else:
 					print("    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+		exit();
+
+	elif arg == "-f":
+		for FILE in FILES:
+			if os.path.isfile(str(FILE)):
+				if not str(FILE).startswith("."):
+					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE))) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
+				else:
+                          		if listall == True:
+                                		print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE))) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
+			else:
+				if str(FILE).startswith("."):
+					try:
+						if listall == True:
+							print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + "    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+					except:
+						pass
+				else:
+					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC +  "    	" + bcolors.WARNING + FILE + bcolors.ENDC)
 		exit();
