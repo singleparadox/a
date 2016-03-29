@@ -79,7 +79,7 @@ def print_files(format_string, **print_keywords):
 
 
 args = []
-validargs = ['a','c', 'h', 'f' ,'s=l', 's=s', 'd']
+validargs = set(('a', 'c', 'h', 'f', 's=l', 's=s', 'd'))
 listall = False
 toprint = ""
 dtl = "."
