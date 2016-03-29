@@ -113,6 +113,7 @@ for arg in args:
 						pass
 				else:
 					print(bcolors.WARNING + str(FILE) + bcolors.ENDC, end='  ')
+		print()  # Ensure output ends in a newline
 		exit();
 	elif arg == "-d":
 		for FILE in FILES:
