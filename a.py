@@ -7,24 +7,7 @@ import time
 
 from datetime import datetime
 
-args = []
-validargs = ['a','c', 'h', 'f' ,'s=l', 's=s', 'd']
-listall = False
-toprint = ""
-dtl = "."
-for arg in sys.argv[1:]:
-	if arg.startswith("-"):
-		if arg[1:] in validargs:
-			args.extend([arg])
-		else:
-			print("Invalid argument: " + arg)
-			exit()
-	elif os.path.isdir(arg):
-		dtl = arg
-	else:
-		print("Invalid argument: " + arg)
-if not '-c' in args and not '-f' in args:
-	args.extend(['-d'])
+
 def help():
 	print("Usage: a [OPTION]")
 	print("		-h: Display this")
@@ -34,6 +17,7 @@ def help():
 	print("		-s=s: Sort from smallest to largest.")
 	print("		-f: List every attribute and use a lot of space.")
 	sys.exit()
+
 
 class bcolors:
 	HEADER = '\033[95m'
@@ -45,6 +29,7 @@ class bcolors:
 	ENDC = '\033[0m'
 	BOLD = '\033[1m'
 	UNDERLINE = '\033[4m'
+
 
 def byte_to(original, decimals):
 	magnitudes = "K", "M", "G", "T", "P", "E"
@@ -95,6 +80,26 @@ def print_files(format_string, **print_keywords):
 	for fname in FILES:
 		print_file(format_string, fname, **print_keywords)
 
+
+args = []
+validargs = ['a','c', 'h', 'f' ,'s=l', 's=s', 'd']
+listall = False
+toprint = ""
+dtl = "."
+for arg in sys.argv[1:]:
+	if arg.startswith("-"):
+		if arg[1:] in validargs:
+			args.extend([arg])
+		else:
+			print("Invalid argument: " + arg)
+			exit()
+	elif os.path.isdir(arg):
+		dtl = arg
+	else:
+		print("Invalid argument: " + arg)
+
+if not '-c' in args and not '-f' in args:
+	args.extend(['-d'])
 
 os.chdir(dtl)
 FILES = os.listdir()
