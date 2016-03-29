@@ -91,12 +91,12 @@ for arg in sys.argv[1:]:
 		if arg[1:] in validargs:
 			args.extend([arg])
 		else:
-			print("Invalid argument: " + arg)
+			print("Invalid argument: " + arg, file=sys.stderr)
 			exit(1)
 	elif os.path.isdir(arg):
 		dtl = arg
 	else:
-		print("Invalid argument: " + arg)
+		print("Not a directory: " + arg, file=sys.stderr)
 
 if not '-c' in args and not '-f' in args:
 	args.extend(['-d'])
