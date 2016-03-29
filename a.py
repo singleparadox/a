@@ -32,35 +32,35 @@ def help():
 	sys.exit()
 
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    CYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+	HEADER = '\033[95m'
+	OKBLUE = '\033[94m'
+	CYAN = '\033[96m'
+	OKGREEN = '\033[92m'
+	WARNING = '\033[93m'
+	FAIL = '\033[91m'
+	ENDC = '\033[0m'
+	BOLD = '\033[1m'
+	UNDERLINE = '\033[4m'
 
 def byte_to(b,t):
 	if t == 0:
-			if b <= 1000:
-				return str(b) + "B"
-			elif b > 1000 and b < (1000000):
-				return str(round(b / 1000,1)) + "KB"
-			elif b > (1000000) and b < (1000000000):
-				return str(round(b / 1000000,1)) + "MB"
-			elif b > (1000000000) and b < (1000000000000):
-				return str(round(b / 1000000000, 1)) + "GB"
+		if b <= 1000:
+			return str(b) + "B"
+		elif b > 1000 and b < (1000000):
+			return str(round(b / 1000,1)) + "KB"
+		elif b > (1000000) and b < (1000000000):
+			return str(round(b / 1000000,1)) + "MB"
+		elif b > (1000000000) and b < (1000000000000):
+			return str(round(b / 1000000000, 1)) + "GB"
 	else:
-			if b <= 1000:
-				return str(b) + "B"
-			elif b > 1000 and b < (1000000):
-				return str(round(b / 1000)) + "KB"
-			elif b > (1000000) and b < (1000000000):
-				return str(round(b / 1000000)) + "MB"
-			elif b > (1000000000) and b < (1000000000000):
-				return str(round(b / 1000000000)) + "GB"
+		if b <= 1000:
+			return str(b) + "B"
+		elif b > 1000 and b < (1000000):
+			return str(round(b / 1000)) + "KB"
+		elif b > (1000000) and b < (1000000000):
+			return str(round(b / 1000000)) + "MB"
+		elif b > (1000000000) and b < (1000000000000):
+			return str(round(b / 1000000000)) + "GB"
 os.chdir(dtl)
 FILES = os.listdir()
 for arg in args:
@@ -101,15 +101,15 @@ for arg in args:
 			pass
 		FILES = []
 		for FILE in pairs:
-      			FILES.extend([FILE[1]])
+			FILES.extend([FILE[1]])
 	elif arg == "-c":
 		for FILE in FILES:
 			if os.path.isfile(str(FILE)):
 				if not str(FILE).startswith("."):
 					print(bcolors.OKGREEN + str(FILE) + bcolors.ENDC, end='  ')
 				else:
-                          		if listall == True:
-                                		print(bcolors.OKGREEN + str(FILE) + bcolors.ENDC, end='  ')
+					if listall == True:
+						print(bcolors.OKGREEN + str(FILE) + bcolors.ENDC, end='  ')
 			else:
 				if str(FILE).startswith("."):
 					try:
@@ -126,8 +126,8 @@ for arg in args:
 				if not str(FILE).startswith("."):
 					print(byte_to(os.path.getsize(str(FILE)), 0) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
 				else:
-                          		if listall == True:
-                                		print(byte_to(os.path.getsize(str(FILE)),0) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
+					if listall == True:
+						print(byte_to(os.path.getsize(str(FILE)),0) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
 			else:
 				if str(FILE).startswith("."):
 					try:
@@ -145,8 +145,8 @@ for arg in args:
 				if not str(FILE).startswith("."):
 					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
 				else:
-                          		if listall == True:
-                                		print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
+					if listall == True:
+						print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
 			else:
 				if str(FILE).startswith("."):
 					try:
