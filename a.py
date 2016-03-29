@@ -80,8 +80,6 @@ def print_files(format_string, **print_keywords):
 
 args = []
 validargs = set(('a', 'c', 'h', 'f', 's=l', 's=s', 'd'))
-listall = False
-toprint = ""
 dtl = "."
 for arg in sys.argv[1:]:
 	if arg.startswith("-"):
