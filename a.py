@@ -20,7 +20,7 @@ for arg in sys.argv[1:]:
 		dtl = arg
 	else:
 		print("Invalid argument: " + arg)
-if not 'c' in args and not 'f' in args:
+if not '-c' in args and not '-f' in args:
 	args.extend(['-d'])
 def help():
 	print("Usage: a [OPTION]")
