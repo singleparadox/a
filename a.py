@@ -51,7 +51,7 @@ def print_file(format_string, fname, **print_keywords):
 	if stat.S_ISREG(file_stats.st_mode):
 		# Regular files are green
 		type_color = bcolors.OKGREEN
-		size = byte_to(os.path.getsize(fname), 1)
+		size = byte_to(file_stats.st_size, 1)
 	else:
 		# Non-regular files are yellow, with sizes hidden
 		type_color = bcolors.WARNING
