@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import operator
 import os
 import sys
 import time
@@ -63,39 +64,11 @@ for arg in args:
 	elif arg == "-h":
 		help()
 	elif arg.startswith("-s="):
-		directory = ""
-		pairs = []
-		for file in FILES:
-			if os.path.isfile(file):
-				if not file.startswith("."):
-					location = os.path.join(directory, file)
-					size = os.path.getsize(location)
-					pairs.append((size, file))
-				else:
-					if listall == True:
-						location = os.path.join(directory, file)
-						size = os.path.getsize(location)
-						pairs.append((size, file))
-			else:
-				if file.startswith("."):
-					if listall == True:
-						location = os.path.join(directory, file)
-						size = os.path.getsize(location)
-						pairs.append((size, file))
-				else:
-					location = os.path.join(directory, file)
-					size = os.path.getsize(location)
-					pairs.append((size, file))
+		files_with_size = [(os.path.getsize(file), file) for file in FILES]
+		# Sort files by size, reverse order if we're using "-s=l" (sort=largest first)
+		files_with_size.sort(key=operator.itemgetter(0), reverse=arg == '-s=l')
+		FILES = [file for size, file in files_with_size]
 
-		# Sort list of tuples by the first element, size.
-		pairs.sort(key=lambda s: s[0])
-		if arg == "-s=l":
-			pairs.reverse()
-		elif arg == "-s=s":
-			pass
-		FILES = []
-		for FILE in pairs:
-			FILES.extend([FILE[1]])
 	elif arg == "-c":
 		for FILE in FILES:
 			if os.path.isfile(str(FILE)):
