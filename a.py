@@ -16,7 +16,7 @@ def help():
 	print("		-s=l: Sort from largest to smallest.")
 	print("		-s=s: Sort from smallest to largest.")
 	print("		-f: List every attribute and use a lot of space.")
-	sys.exit()
+	exit()
 
 
 class bcolors:
