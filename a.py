@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 import operator
 import os
+import stat
 import sys
 import time
+
+from datetime import datetime
 
 args = []
 validargs = ['a','c', 'h', 'f' ,'s=l', 's=s', 'd']
@@ -56,6 +59,43 @@ def byte_to(original, decimals):
 
 	return "{:.{}f}{}B".format(value, decimals, unit)
 
+
+def print_file(format_string, fname, **print_keywords):
+	if fname.startswith(".") and not listall:
+		return
+
+	file_stats = os.lstat(fname)
+
+	if stat.S_ISREG(file_stats.st_mode):
+		# Regular files are green
+		type_color = bcolors.OKGREEN
+		size = byte_to(os.path.getsize(fname), 1)
+	else:
+		# Non-regular files are yellow, with sizes hidden
+		type_color = bcolors.WARNING
+		size = ''
+
+	format_keywords = {
+		'type_color': type_color,
+		'name': fname,
+		'colored_name': type_color + fname + bcolors.ENDC,
+		'size': size,
+		'atime': datetime.fromtimestamp(file_stats.st_atime),
+		'ctime': datetime.fromtimestamp(file_stats.st_ctime),
+		'mtime': datetime.fromtimestamp(file_stats.st_mtime),
+	}
+
+	# Add all colors to the format dictionary
+	format_keywords.update({key: val for key, val in bcolors.__dict__.items() if not key.startswith('_')})
+
+	print(format_string.format(**format_keywords), **print_keywords)
+
+
+def print_files(format_string, **print_keywords):
+	for fname in FILES:
+		print_file(format_string, fname, **print_keywords)
+
+
 os.chdir(dtl)
 FILES = os.listdir()
 for arg in args:
@@ -70,58 +110,14 @@ for arg in args:
 		FILES = [file for size, file in files_with_size]
 
 	elif arg == "-c":
-		for FILE in FILES:
-			if os.path.isfile(str(FILE)):
-				if not str(FILE).startswith("."):
-					print(bcolors.OKGREEN + str(FILE) + bcolors.ENDC, end='  ')
-				else:
-					if listall == True:
-						print(bcolors.OKGREEN + str(FILE) + bcolors.ENDC, end='  ')
-			else:
-				if str(FILE).startswith("."):
-					try:
-						if listall == True:
-							print(bcolors.WARNING + str(FILE) + bcolors.ENDC, end='  ')
-					except:
-						pass
-				else:
-					print(bcolors.WARNING + str(FILE) + bcolors.ENDC, end='  ')
+		print_files('{colored_name}', end='  ')
 		print()  # Ensure output ends in a newline
 		exit();
+
 	elif arg == "-d":
-		for FILE in FILES:
-			if os.path.isfile(str(FILE)):
-				if not str(FILE).startswith("."):
-					print(byte_to(os.path.getsize(str(FILE)), 1) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
-				else:
-					if listall == True:
-						print(byte_to(os.path.getsize(str(FILE)), 1) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
-			else:
-				if str(FILE).startswith("."):
-					try:
-						if listall == True:
-							print("    	" + bcolors.WARNING + FILE + bcolors.ENDC)
-					except:
-						pass
-				else:
-					print("    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+		print_files('{size:8}{colored_name}')
 		exit();
 
 	elif arg == "-f":
-		for FILE in FILES:
-			if os.path.isfile(str(FILE)):
-				if not str(FILE).startswith("."):
-					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)), 0) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
-				else:
-					if listall == True:
-						print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)), 0) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
-			else:
-				if str(FILE).startswith("."):
-					try:
-						if listall == True:
-							print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + "    	" + bcolors.WARNING + FILE + bcolors.ENDC)
-					except:
-						pass
-				else:
-					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC +  "    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+		print_files('{CYAN}{mtime:%c}{ENDC} {size:8}{colored_name}')
 		exit();
