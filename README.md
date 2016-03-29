@@ -1,4 +1,7 @@
-# A, a simpler version of L.-
+<p style="text-align:center;">
+<img src="http://i.pi.gy/Og4G.png">
+</p>
+# A simpler version of L.-
 ### Arguments:
 #### -h
 Display the help screen
