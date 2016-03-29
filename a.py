@@ -92,7 +92,7 @@ for arg in sys.argv[1:]:
 			args.extend([arg])
 		else:
 			print("Invalid argument: " + arg)
-			exit()
+			exit(1)
 	elif os.path.isdir(arg):
 		dtl = arg
 	else:
