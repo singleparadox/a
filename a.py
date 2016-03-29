@@ -46,9 +46,6 @@ def byte_to(original, decimals):
 
 
 def print_file(format_string, fname, **print_keywords):
-	if fname.startswith(".") and not listall:
-		return
-
 	file_stats = os.lstat(fname)
 
 	if stat.S_ISREG(file_stats.st_mode):
@@ -103,10 +100,13 @@ if not '-c' in args and not '-f' in args:
 
 os.chdir(dtl)
 FILES = os.listdir()
+
+if '-a' not in args:
+	# Remove dotfiles from listing if we aren't showing all files
+	FILES = [file for file in FILES if not file.startswith('.')]
+
 for arg in args:
-	if arg == "-a":
-		listall = True
-	elif arg == "-h":
+	if arg == "-h":
 		help()
 	elif arg.startswith("-s="):
 		files_with_size = [(os.path.getsize(file), file) for file in FILES]
