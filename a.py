@@ -38,6 +38,7 @@ class bcolors:
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
+    GRAY = '\033[90m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
@@ -45,22 +46,22 @@ class bcolors:
 def byte_to(b,t):
 	if t == 0:
 			if b <= 1000:
-				return str(b) + "B"
+				return str(bcolors.GRAY) + str(b) + "B"
 			elif b > 1000 and b < (1000000):
-				return str(round(b / 1000,1)) + "KB"
+				return str(bcolors.ENDC) + str(round(b / 1000,1)) + "KB"
 			elif b > (1000000) and b < (1000000000):
-				return str(round(b / 1000000,1)) + "MB"
+				return str(bcolors.WARNING) + str(round(b / 1000000,1)) + "MB"
 			elif b > (1000000000) and b < (1000000000000):
-				return str(round(b / 1000000000, 1)) + "GB"
+				return str(bcolors.FAIL) +  str(round(b / 1000000000, 1)) + "GB"
 	else:
 			if b <= 1000:
-				return str(b) + "B"
+				return str(bcolors.GRAY) + str(b) + "B"
 			elif b > 1000 and b < (1000000):
-				return str(round(b / 1000)) + "KB"
+				return str(bcolors.ENDC) + str(round(b / 1000)) + "KB"
 			elif b > (1000000) and b < (1000000000):
-				return str(round(b / 1000000)) + "MB"
+				return str(bcolors.WARNING) + str(round(b / 1000000)) + "MB"
 			elif b > (1000000000) and b < (1000000000000):
-				return str(round(b / 1000000000)) + "GB"
+				return str(bcolors.FAIL) +  str(round(b / 1000000000)) + "GB"
 os.chdir(dtl)
 FILES = os.listdir()
 for arg in args:
@@ -124,36 +125,35 @@ for arg in args:
 		for FILE in FILES:
 			if os.path.isfile(str(FILE)):
 				if not str(FILE).startswith("."):
-					print(byte_to(os.path.getsize(str(FILE)), 0) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
+					print(byte_to(os.path.getsize(str(FILE)), 0) + "	" + bcolors.GRAY + '| ' + bcolors.OKGREEN + FILE + bcolors.ENDC)
 				else:
                           		if listall == True:
-                                		print(byte_to(os.path.getsize(str(FILE)),0) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
+                                		print(byte_to(os.path.getsize(str(FILE)),0) + "	" + bcolors.GRAY + '| ' + bcolors.OKGREEN + FILE + bcolors.ENDC)
 			else:
 				if str(FILE).startswith("."):
 					try:
 						if listall == True:
-							print("    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+							print("    	"  + bcolors.GRAY + '| ' + bcolors.WARNING + FILE + bcolors.ENDC)
 					except:
 						pass
 				else:
-					print("    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+					print("    	" + bcolors.GRAY + '| ' + bcolors.WARNING + FILE + bcolors.ENDC)
 		exit();
 
 	elif arg == "-f":
 		for FILE in FILES:
 			if os.path.isfile(str(FILE)):
 				if not str(FILE).startswith("."):
-					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
+					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.GRAY + '| ' + bcolors.OKGREEN + FILE + bcolors.ENDC)
 				else:
                           		if listall == True:
-                                		print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.OKGREEN + FILE + bcolors.ENDC)
-			else:
+                                		print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.GRAY + '| ' + bcolors.OKGREEN + FILE + bcolors.ENDC)
 				if str(FILE).startswith("."):
 					try:
 						if listall == True:
-							print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + "    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+							print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + "    	" + bcolors.GRAY + '| ' + bcolors.WARNING + FILE + bcolors.ENDC)
 					except:
 						pass
 				else:
-					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC +  "    	" + bcolors.WARNING + FILE + bcolors.ENDC)
+					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC +  "    	" + bcolors.GRAY + '| ' + bcolors.WARNING + FILE + bcolors.ENDC)
 		exit();
