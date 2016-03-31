@@ -148,6 +148,7 @@ for arg in args:
 				else:
                           		if listall == True:
                                 		print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC + " " + byte_to(os.path.getsize(str(FILE)),1) + "	" + bcolors.GRAY + '| ' + bcolors.OKGREEN + FILE + bcolors.ENDC)
+			else:
 				if str(FILE).startswith("."):
 					try:
 						if listall == True:
