@@ -156,5 +156,8 @@ for arg in args:
 					except:
 						pass
 				else:
-					print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC +  "    	" + bcolors.GRAY + '| ' + bcolors.WARNING + FILE + bcolors.ENDC)
+					try:
+						print(bcolors.CYAN + time.ctime(os.path.getmtime(str(FILE))) + bcolors.ENDC +  "    	" + bcolors.GRAY + '| ' + bcolors.WARNING + FILE + bcolors.ENDC)
+					except:
+						pass
 		exit();
