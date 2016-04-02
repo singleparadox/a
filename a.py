@@ -110,8 +110,21 @@ for arg in sys.argv[1:]:
 if not '-c' in args and not '-f' in args:
 	args.extend(['-d'])
 
-os.chdir(dtl)
-FILES = os.listdir()
+try:
+	os.chdir(dtl)
+except PermissionError:
+	print("Could not change directory to '{}'.".format(dtl),
+	      "Please ensure you have execute permissions on that directory.",
+	      file=sys.stderr, sep='\n')
+	exit(2)
+
+try:
+	FILES = os.listdir()
+except PermissionError:
+	print("Could not list the directory at '{}'.".format(dtl),
+	      "Please ensure you have read permissions on that directory.",
+	      file=sys.stderr, sep='\n')
+	exit(3)
 
 if '-a' not in args:
 	# Remove dotfiles from listing if we aren't showing all files
