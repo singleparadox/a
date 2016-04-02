@@ -26,6 +26,7 @@ class bcolors:
 	OKGREEN = '\033[92m'
 	WARNING = '\033[93m'
 	FAIL = '\033[91m'
+	GRAY = '\033[90m'
 	ENDC = '\033[0m'
 	BOLD = '\033[1m'
 	UNDERLINE = '\033[4m'
@@ -45,6 +46,17 @@ def byte_to(original, decimals):
 	return "{:.{}f}{}B".format(value, decimals, unit)
 
 
+def size_color(size):
+	if size < 1000:
+		return bcolors.GRAY
+	elif size < 1000000:
+		return bcolors.ENDC
+	elif size < 1000000000:
+		return bcolors.WARNING
+	else:
+		return bcolors.FAIL
+
+
 def print_file(format_string, fname, **print_keywords):
 	file_stats = os.lstat(fname)
 
@@ -62,6 +74,7 @@ def print_file(format_string, fname, **print_keywords):
 		'name': fname,
 		'colored_name': type_color + fname + bcolors.ENDC,
 		'size': size,
+		'size_color': size_color(file_stats.st_size),
 		'atime': datetime.fromtimestamp(file_stats.st_atime),
 		'ctime': datetime.fromtimestamp(file_stats.st_ctime),
 		'mtime': datetime.fromtimestamp(file_stats.st_mtime),
@@ -118,9 +131,9 @@ for arg in args:
 		exit();
 
 	elif arg == "-d":
-		print_files('{size:8}{colored_name}')
+		print_files('{size_color}{size:8}{GRAY}| {colored_name}')
 		exit();
 
 	elif arg == "-f":
-		print_files('{CYAN}{mtime:%c}{ENDC} {size:8}{colored_name}')
+		print_files('{CYAN}{mtime:%c}{ENDC} {size_color}{size:8}{GRAY}| {colored_name}')
 		exit();
