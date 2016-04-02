@@ -105,6 +105,7 @@ for arg in sys.argv[1:]:
 		dtl = arg
 	else:
 		print("Not a directory: " + arg, file=sys.stderr)
+		exit(1)
 
 if not '-c' in args and not '-f' in args:
 	args.extend(['-d'])
